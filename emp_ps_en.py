@@ -31,11 +31,11 @@ def _area_weighted_mean_w2(taper_mask, pix_area, area_weighted=True):
 def _cl_from_map(imap, bsize=300, apod_width=100, max_ell=10_000, normalize='phys', area_weighted=True):
     """
     Compute binned C_ell and ell_b for a patch:
-      - apodization (cosine taper)
-      - FFT (normalize='phys')
-      - ell binning (enmap.lbin)
-      - <w^2> correction
-      - cut at ell <= max_ell
+     - apodization (cosine taper)
+     - FFT (normalize='phys')
+     - ell binning (enmap.lbin)
+     - <w^2> correction
+     - cut at ell <= max_ell
 
     Returns: ell_b_cut, C_ell_cut, fsky_full, fsky_eff
     """
@@ -59,7 +59,7 @@ def _cl_from_map(imap, bsize=300, apod_width=100, max_ell=10_000, normalize='phy
     Cl_b = Cl_b / w2
 
     # f_sky (useful for logs/diagnostics)
-    area_full = np.sum(pix_area)                    # [sr]
+    area_full = np.sum(pix_area)                   # [sr]
     fsky_full = area_full / (4*np.pi)
     area_eff  = np.sum(pix_area * taper_mask**2)    # [sr]
     fsky_eff  = area_eff / (4*np.pi)
@@ -75,7 +75,7 @@ def _cl_from_map(imap, bsize=300, apod_width=100, max_ell=10_000, normalize='phy
     return ell_b_cut, Cl_b_cut, float(fsky_full), float(fsky_eff)
 
 
-def compute_dell_empiriques(
+def compute_dell_empirical(
     path_like,
     bsize=300,
     max_ell=10_000,
@@ -84,10 +84,10 @@ def compute_dell_empiriques(
     normalize='phys',
     area_weighted=True,
     plot=False,
-    overlay_theory=None,   # tuple (ell_theory, D_ell_theory) or None
+    overlay_theory=None,    # tuple (ell_theory, D_ell_theory) or None
     label='Patches',
-    save_csv=None,         # CSV path OR directory (in grouped mode)
-    save_plot=None,        # image path OR directory (in grouped mode)
+    save_csv=None,          # CSV path OR directory (in grouped mode)
+    save_plot=None,         # image path OR directory (in grouped mode)
     quiet=False
 ):
     """
@@ -95,39 +95,39 @@ def compute_dell_empiriques(
     **or a directory containing subdirectories (one per cosmology)**.
 
     Pipeline (per patch):
-      - apodization + normalized FFT ('phys')
-      - ell binning
-      - <w^2> correction
-      - conversion C_ell -> D_ell = ell(ell+1)/(2π) C_ell * unit_scale
-      - cross-patch aggregation: mean and standard deviation (ddof=1)
+     - apodization + normalized FFT ('phys')
+     - ell binning
+     - <w^2> correction
+     - conversion C_ell -> D_ell = ell(ell+1)/(2π) C_ell * unit_scale
+     - cross-patch aggregation: mean and standard deviation (ddof=1)
 
     Grouped mode:
-      - If `path_like` is a directory WITHOUT direct FITS but WITH subdirectories,
-        each subdirectory containing .fits is treated as a cosmology.
-      - We write a **detailed CSV per cosmology** if `save_csv` is provided (file with suffix
-        or to a directory), and a **summary CSV (mean/std) per cosmology**.  # [NEW]
+     - If `path_like` is a directory WITHOUT direct FITS but WITH subdirectories,
+       each subdirectory containing .fits is treated as a cosmology.
+     - We write a **detailed CSV per cosmology** if `save_csv` is provided (file with suffix
+       or to a directory), and a **summary CSV (mean/std) per cosmology**.  # [NEW]
 
     Detailed CSV (compatibility & covariance):
-      - Columns: `ell`, `D_ell_mean`, `D_ell_std`, then `D_ell_patch{i}` for i=0..N-1.
-      - A commented header includes metadata and the index↔file mapping.
+     - Columns: `ell`, `D_ell_mean`, `D_ell_std`, then `D_ell_patch{i}` for i=0..N-1.
+     - A commented header includes metadata and the index↔file mapping.
 
     Returns also an execution time:
-      - In simple mode: results['runtime_sec']
-      - In grouped mode: top-level dict includes 'runtime_sec_total'
+     - In simple mode: results['runtime_sec']
+     - In grouped mode: top-level dict includes 'runtime_sec_total'
     """
     t0_group = time.perf_counter()
 
     # Internal helpers for output paths in grouped mode
     def _derive_csv_path(base, cosmo):
+        """[MODIFIED] Derive path for detailed CSV (all patches) in 'coef' subfolder."""
         if base is None:
             return None
         base = os.fspath(base)
-        root, ext = os.path.splitext(base)
-        if ext.lower() == '.csv':
-            return f"{root}_{cosmo}.csv"
-        # otherwise treat as a directory
-        os.makedirs(base, exist_ok=True)
-        return os.path.join(base, f"{cosmo}.csv")
+        # Le répertoire cible est <base>/coef
+        coef_dir = os.path.join(base, "coef")
+        os.makedirs(coef_dir, exist_ok=True)
+        # Le chemin du fichier est <base>/coef/<cosmo>.csv
+        return os.path.join(coef_dir, f"{cosmo}.csv")
 
     def _derive_plot_path(base, cosmo):
         if base is None:
@@ -142,15 +142,16 @@ def compute_dell_empiriques(
         return os.path.join(base, f"{cosmo}.png")
 
     # path for “summary” CSV (mean/std) per cosmology
-    def _derive_csv_meanstd_path(base, cosmo):  # [NEW]
+    def _derive_csv_meanstd_path(base, cosmo):  # [NEW & MODIFIED]
+        """[MODIFIED] Derive path for summary CSV (mean/std) in 'mean' subfolder."""
         if base is None:
             return None
         base = os.fspath(base)
-        root, ext = os.path.splitext(base)
-        if ext.lower() == '.csv':
-            return f"{root}_{cosmo}_meanstd.csv"
-        os.makedirs(base, exist_ok=True)
-        return os.path.join(base, f"{cosmo}_meanstd.csv")
+        # Le répertoire cible est <base>/mean
+        mean_dir = os.path.join(base, "mean")
+        os.makedirs(mean_dir, exist_ok=True)
+        # Le chemin du fichier est <base>/mean/<cosmo>.csv
+        return os.path.join(mean_dir, f"{cosmo}.csv")
 
     # Detect grouped mode: directory without direct FITS but with subdirectories containing FITS
     if os.path.isdir(path_like):
@@ -171,7 +172,7 @@ def compute_dell_empiriques(
                     cosmo = os.path.basename(sd.rstrip(os.sep))
                     if not quiet:
                         print(f"\n=== Cosmology: {cosmo} ===")
-                    res = compute_dell_empiriques(
+                    res = compute_dell_empirical(
                         path_like=sd,
                         bsize=bsize,
                         max_ell=max_ell,
@@ -340,7 +341,7 @@ def compute_dell_empiriques(
 
         if overlay_theory is not None:
             ell_th, D_th = overlay_theory
-            plt.plot(ell_th, D_th, linestyle='dashed', label='Théorie')
+            plt.plot(ell_th, D_th, linestyle='dashed', label='Theory')
 
         plt.xscale('linear')
         plt.yscale('linear')
