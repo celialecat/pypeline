@@ -141,7 +141,7 @@ def compute_dell_empiriques(
         os.makedirs(base, exist_ok=True)
         return os.path.join(base, f"{cosmo}.png")
 
-    # [NEW] path for “summary” CSV (mean/std) per cosmology
+    # path for “summary” CSV (mean/std) per cosmology
     def _derive_csv_meanstd_path(base, cosmo):  # [NEW]
         if base is None:
             return None
@@ -342,8 +342,8 @@ def compute_dell_empiriques(
             ell_th, D_th = overlay_theory
             plt.plot(ell_th, D_th, linestyle='dashed', label='Théorie')
 
-        plt.xscale('log')
-        plt.yscale('log')
+        plt.xscale('linear')
+        plt.yscale('linear')
         plt.xlabel(r'$\ell$')
         plt.ylabel(r'$D_\ell$')
         plt.title('Angular power spectrum with error bars')
