@@ -157,8 +157,8 @@ def _derive_csv_path(base, cosmo):
         os.makedirs(out_dir, exist_ok=True)
         return os.path.join(out_dir, f"{base_name}_{cosmo}.csv")
     
-    # Cas où 'base' est un dossier (ex: "path/to/results/")
-    # Nouveau chemin: "path/to/results/wst_mean/{cosmo}.csv"
+    #Case where "base" is a file (ex: "path/to/results/")
+    #New path: "path/to/results/wst_mean/{cosmo}.csv"
     out_dir = os.path.join(base, "wst_mean")
     os.makedirs(out_dir, exist_ok=True)
     return os.path.join(out_dir, f"{cosmo}.csv")
@@ -172,16 +172,16 @@ def _derive_samples_csv_path(base, cosmo):
     root, ext = os.path.splitext(base)
     
     if ext.lower() == '.csv':
-        # Cas où 'base' est un fichier (ex: "path/to/samples.csv")
-        # Nouveau chemin: "path/to/wst_coef/samples_{cosmo}.csv"
+        # Case where 'base' is a file (ex: "path/to/samples.csv")
+        # New path: "path/to/wst_coef/samples_{cosmo}.csv"
         base_dir = os.path.dirname(base)
         base_name = os.path.basename(root)
         out_dir = os.path.join(base_dir, "wst_coef")
         os.makedirs(out_dir, exist_ok=True)
         return os.path.join(out_dir, f"{base_name}_{cosmo}.csv")
     
-    # Cas où 'base' est un dossier (ex: "path/to/results/")
-    # Nouveau chemin: "path/to/results/wst_coef/{cosmo}_samples.csv"
+    # Case where 'base' is a folder (ex: "path/to/results/")
+    # New path: "path/to/results/wst_coef/{cosmo}_samples.csv"
     out_dir = os.path.join(base, "wst_coef")
     os.makedirs(out_dir, exist_ok=True)
     return os.path.join(out_dir, f"{cosmo}_samples.csv")
@@ -334,7 +334,7 @@ def compute_wst_S012(
         S1_t = s_mean["S1_iso"]
         idx_S1 = s_mean.get("index_S1_iso", None)
     else:
-        if strict_iso:
+        if strict_iso: 
             raise KeyError("S1_iso not found in s_mean: strict_iso=True requires pure isotropic part.")
         # Non-strict mode (conscious fallback): raw S1
         S1_t = s_mean.get("S1", None)
@@ -380,24 +380,23 @@ def compute_wst_S012(
     if save_samples_csv is not None:
         import pandas as pd
 
+        # --- CORRECTED BLOCK 1 ---
         # Resolve final path (file vs directory)
         outpath_base = os.fspath(save_samples_csv)
-        # If an explicit directory is provided (or ends with /), use a default file name
+
+        # If user passed a directory (simple mode only)
         if (os.path.isdir(outpath_base)) or (outpath_base.endswith(os.sep)):
-            # Cas où 'save_samples_csv' est un dossier (ex: "results/")
-            # Nouveau: "results/wst_coef/samples.csv"
             outdir = os.path.join(outpath_base, "wst_coef")
             outpath = os.path.join(outdir, "samples.csv")
         else:
-            # Cas où 'save_samples_csv' est un fichier (ex: "results/my_samples.csv")
-            # Nouveau: "results/wst_coef/my_samples.csv"
-            base_dir = os.path.dirname(outpath_base)
-            base_name = os.path.basename(outpath_base)
-            outdir = os.path.join(base_dir, "wst_coef")
-            outpath = os.path.join(outdir, base_name)
-        
+            # If user passed a file (simple mode) OR it's a grouped mode call,
+            # we assume the path is FINAL as computed by the helper function.
+            outpath = outpath_base
+            outdir = os.path.dirname(outpath)
+
         if outdir and not os.path.exists(outdir):
             os.makedirs(outdir, exist_ok=True)
+        # --- END CORRECTED BLOCK 1 ---
 
         N_s = x.shape[0]  # number of samples (patches)
         rows_long = []
@@ -556,17 +555,16 @@ def compute_wst_S012(
                 'whiten': bool(whiten), 'device': dev
             }
             
-            out_csv_base = os.fspath(save_csv)
-            base_dir = os.path.dirname(out_csv_base)
-            base_name = os.path.basename(out_csv_base)
-            
-            # Insère 'wst_mean' dans le chemin
-            out_dir = os.path.join(base_dir, "wst_mean")
-            out_csv = os.path.join(out_dir, base_name)
+            # --- CORRECTED BLOCK 2 ---
+            # The save_csv path is assumed to be FINAL
+            # (as derived by _derive_csv_path in grouped mode).
+            out_csv = os.fspath(save_csv)
+            out_dir = os.path.dirname(out_csv)
             
             if out_dir and not os.path.exists(out_dir):
                 os.makedirs(out_dir, exist_ok=True)
             df.to_csv(out_csv, index=False)
+            # --- END CORRECTED BLOCK 2 ---
             
             header = '# ' + ', '.join(f"{k}={v}" for k, v in meta.items())
             with open(out_csv, 'r+', encoding='utf-8') as f:
