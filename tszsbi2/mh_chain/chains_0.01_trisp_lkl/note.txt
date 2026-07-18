@@ -1,0 +1,19 @@
+[0 : mcmc] All chains are ready to check convergence and learn a new proposal covmat
+[0 : mcmc]  - Acceptance rate: 0.299 = avg([0.2962, 0.3011, 0.2986, 0.3012])
+[0 : mcmc]  - Convergence of means: R-1 = 0.009248 after 138323 accepted steps = sum([34219, 34701, 34761, 34642])
+[0 : mcmc]  - Convergence of bounds: R-1 = 0.082500 after 138323 accepted steps = sum([34219, 34701, 34761, 34642])
+[0 : mcmc] The run has converged!
+[2 : tszpower.tszpower_cobaya_likelihood_trisp.tsz_ps_likelihood] Average evaluation time for tszpower.tszpower_cobaya_likelihood_trisp.tSZ_PS_Likelihood: 0.00010526 s  (549160 evaluations)
+[3 : tszpower.tszpower_cobaya_likelihood_trisp.tsz_ps_likelihood] Average evaluation time for tszpower.tszpower_cobaya_likelihood_trisp.tSZ_PS_Likelihood: 0.000104146 s  (548023 evaluations)
+[2 : tszpower.tszpower_cobaya_theory.tsz_ps_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_PS_Theory: 0.187652 s  (56897 evaluations)
+[3 : tszpower.tszpower_cobaya_theory.tsz_ps_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_PS_Theory: 0.18768 s  (56968 evaluations)
+[2 : tszpower.tszpower_cobaya_theory.tsz_fg_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_FG_Theory: 3.5644e-05 s  (549160 evaluations)
+[0 : mcmc] Sampling complete after 138323 accepted steps.
+[0 : tszpower.tszpower_cobaya_likelihood_trisp.tsz_ps_likelihood] Average evaluation time for tszpower.tszpower_cobaya_likelihood_trisp.tSZ_PS_Likelihood: 0.000109105 s  (543274 evaluations)
+[0 : tszpower.tszpower_cobaya_theory.tsz_ps_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_PS_Theory: 0.187705 s  (56762 evaluations)
+[0 : tszpower.tszpower_cobaya_theory.tsz_fg_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_FG_Theory: 3.63415e-05 s  (543274 evaluations)
+[1 : tszpower.tszpower_cobaya_likelihood_trisp.tsz_ps_likelihood] Average evaluation time for tszpower.tszpower_cobaya_likelihood_trisp.tSZ_PS_Likelihood: 0.000107188 s  (548803 evaluations)
+[3 : tszpower.tszpower_cobaya_theory.tsz_fg_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_FG_Theory: 3.59178e-05 s  (548023 evaluations)
+[1 : tszpower.tszpower_cobaya_theory.tsz_ps_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_PS_Theory: 0.187696 s  (56867 evaluations)
+[1 : tszpower.tszpower_cobaya_theory.tsz_fg_theory] Average evaluation time for tszpower.tszpower_cobaya_theory.tSZ_FG_Theory: 3.59574e-05 s  (548803 evaluations)
+(cmbagent_env) (base) licongxu@LicongdeMacBook-Pro cobaya_run % 

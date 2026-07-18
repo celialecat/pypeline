@@ -1,0 +1,53 @@
+[build-system]
+requires = [
+    "setuptools>=61",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tszpower"
+version = "0.1.0"
+description = "Cosmological Parameter Inference with the tSZ Power Spectrum using JAX, MCMC, and SBI."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+keywords = ["cosmology", "tSZ", "MCMC", "SBI", "JAX", "inference"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Physics"
+]
+dependencies = [
+    "jax",
+    "jaxlib",
+    "sbi",
+    "pyyaml",
+    "classy_sz",
+    "cobaya",
+    "getdist"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6",
+    "jupyter",
+    "notebook"
+]
+
+
+[tool.setuptools]
+include-package-data = true
+
+packages = { find = { where = ["."], include = ["tszpower", "tszpower.*"] } }
+
+[project.urls]
+Homepage = "https://github.com/licongxu/tszpower"
+Documentation = "https://github.com/licongxu/tszpower#readme"
+Repository = "https://github.com/licongxu/tszpower"

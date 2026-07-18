@@ -1,0 +1,8 @@
+{
+  "model": "maf",
+  "hidden_features": 30,
+  "num_transforms": 3,
+  "num_components": 5,
+  "dropout_probability": 0.0,
+  "activation": "nn.Tanh"
+}

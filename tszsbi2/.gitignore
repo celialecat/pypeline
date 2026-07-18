@@ -1,0 +1,14 @@
+*.egg-info/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+*.pyzwz
+
+tszpower/__pycache__/* 
+
+*ipynb_checkpoints/
+*.ipynb_checkpoints/
