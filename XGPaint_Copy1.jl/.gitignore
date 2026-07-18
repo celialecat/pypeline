@@ -1,0 +1,17 @@
+.vscode
+*.jl.*.cov
+*.jl.cov
+*.jl.mem
+.DS_Store
+/Manifest.toml
+/dev/
+/docs/build/
+/docs/site/
+/docs/src/Manifest.toml
+/docs/Manifest.toml
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.h5
+*.jld2
+*.pdf
+test/Manifest.toml

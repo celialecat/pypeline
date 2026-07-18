@@ -1,0 +1,33 @@
+# a simple Artifacts.toml file
+[tsz_example]
+git-tree-sha1 = "c9634624e033a452d13759bd3c2612df1692a067"
+lazy = true
+
+    [[tsz_example.download]]
+    url = "https://github.com/WebSky-CITA/XGPaint.jl/releases/download/tsz_example/tsz_example.tar.gz"
+    sha256 = "33242449b9a67e9c21e243e80c61bc00123ffc3325cd109aa1f045bf7d798e50"
+
+
+[tsz_test_map]
+git-tree-sha1 = "33c94a68b66fc36ede1d72d1d2a6d55b30a67a7c"
+lazy = true
+
+    [[tsz_test_map.download]]
+    url = "https://github.com/WebSky-CITA/XGPaint.jl/releases/download/tsz_example/test_tsz_map.tar.gz"
+    sha256 = "401d903b4d145c2eef9ff9666adfb4ef7b2b3a3a0cbcb990a630e3a78a426735"
+
+[rsz_table]
+git-tree-sha1 = "415c5fdc65de4d296a1bdd844e338beb43d85843"
+lazy = true
+
+    [[rsz_table.download]]
+    url = "https://github.com/WebSky-CITA/XGPaint.jl/releases/download/rsz_example/szpack_interp_T75_upd.dat.tar.gz"
+    sha256 = "2e9cb9d04d1014292597f10a9507cdd4d9071522932854979ab5bb6e1290004d"
+
+[precomputed_battaglia_tau]
+git-tree-sha1 = "70266f95de16e21b2a73f99087038cd018fd1c97"
+lazy = true
+
+    [[precomputed_battaglia_tau.download]]
+    url = "https://github.com/WebSky-CITA/XGPaint.jl/releases/download/tau_example/precomputed_battaglia_tau.tar.gz"
+    sha256 = "7a751d7913eb6a13f20354bed06b746fc1402623230af27fbeab6fb31b272bce"
