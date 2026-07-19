@@ -1,0 +1,38 @@
+output: mcmc_out/chains/sim_chain
+
+params:
+  Oc0h2:
+    prior: {min: 0.05, max: 0.20}
+    ref:   0.12
+    proposal: 0.005
+    latex: \Omega_c h^2
+  
+  logA:
+    prior: {min: 2.0, max: 4.0}
+    ref:   3.04
+    proposal: 0.05
+    latex: \ln(10^{10}A_s)
+
+likelihood:
+  like_sim.SimBasedLikelihood:
+    # Chemins vers tes données observées (ex: cosmologie fiducielle)
+    data_wst_path: "/path/to/observed/wst_mean.csv"
+    data_dell_path: "/path/to/observed/dell_mean_binned.csv" # Doit être binné sur 18 points
+    cov_path: "mcmc_out/cov1.npz"
+    
+    # Chemins Pipeline
+    scratch_dir: "/rds/rds-clecat/.../scratch_mcmc" # Dossier temp rapide
+    xgpaint_path: "/rds/rds-clecat/pipeline_alina_full/alina_paper/XGPaint.jl"
+    survey_sr_path: "/rds/rds-clecat/pipeline_alina_full/alina_paper/cosmocnc/surveys/survey_sr_so_sim.py"
+    survey_cat_path: "/rds/rds-clecat/pipeline_alina_full/alina_paper/cosmocnc/surveys/survey_cat_so_sim.py"
+
+sampler:
+  mcmc:
+    # Attention : Burn-in très long nécessaire car la likelihood est stochastique
+    # (si tu ne fixes pas la graine dans process_catalogues)
+    burn_in: 10
+    max_samples: 1000
+    Rminus1_stop: 0.05
+    proposal_scale: 1.0
+
+debug: true

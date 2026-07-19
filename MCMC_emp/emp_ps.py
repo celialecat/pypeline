@@ -137,7 +137,7 @@ def compute_dell_empirical(
     save_csv=None,          # CSV path OR directory (in grouped mode)
     save_plot=None,         # image path OR directory (in grouped mode)
     quiet=False,
-    ell_eval=None           # <--- NOUVEAU : centres de bins (ex: np.geomspace(400, 5000, 18))
+    ell_eval=None           # centres de bins (ex: np.geomspace(400, 5000, 18))
 ):
     """
     Compute empirical D_ell from a patch .fits, a directory of patch .fits
@@ -229,7 +229,7 @@ def compute_dell_empirical(
                         save_csv=_derive_csv_path(save_csv, cosmo),
                         save_plot=_derive_plot_path(save_plot, cosmo),
                         quiet=quiet,
-                        ell_eval=ell_eval,   # <--- propagé
+                        ell_eval=ell_eval, 
                     )
                     results_by_cosmo[cosmo] = res
 

@@ -1,0 +1,34 @@
+likelihood:
+  my_mcmc_module.FullPipelineLikelihood:
+    python_path: .
+    cov_path: /rds/rds-clecat/pipeline_alina_full/alina_paper/MCMC_emp/out/cov_all.npz
+    obs_data_path: /rds/rds-clecat/pipeline_alina_full/alina_paper/pipeline_outputs/paint_cov_pipe/logA=3.038456_Oc0h2=0.116816/y_map_10.0deg_0.500arcmin_0.fits
+params:
+  Oc0h2:
+    prior:
+      min: 0.05
+      max: 0.2
+    ref:
+      dist: norm
+      loc: 0.1193
+      scale: 0.005
+    proposal: 0.002
+    latex: \Omega_c h^2
+  logA:
+    prior:
+      min: 2.0
+      max: 4.0
+    ref:
+      dist: norm
+      loc: 3.04
+      scale: 0.05
+    proposal: 0.05
+    latex: \ln(10^{10}A_s)
+sampler:
+  mcmc:
+    burn_in: 10
+    max_samples: 10
+    Rminus1_stop: 0.05
+    proposal_scale: 2.4
+    learn_proposal: true
+output: run_emp_3

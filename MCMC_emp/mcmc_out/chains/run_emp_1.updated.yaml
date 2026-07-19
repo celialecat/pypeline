@@ -1,0 +1,64 @@
+likelihood:
+  my_mcmc_module.FullPipelineLikelihood:
+    type: []
+    speed: -1
+    stop_at_error: false
+    version: null
+    python_path: .
+    cov_path: /rds/rds-clecat/pipeline_alina_full/alina_paper/MCMC_emp/out/cov_all.npz
+    obs_data_path: rds/pipeline_alina_full/alina_paper/pipeline_outputs/paint_cov_pipe/logA=3.038456_Oc0h2=0.116816/y_map_10.0deg_0.500arcmin_0.fits
+params:
+  Oc0h2:
+    prior:
+      min: 0.05
+      max: 0.2
+    ref:
+      dist: norm
+      loc: 0.1193
+      scale: 0.005
+    proposal: 0.002
+    latex: \Omega_c h^2
+  logA:
+    prior:
+      min: 2.0
+      max: 4.0
+    ref:
+      dist: norm
+      loc: 3.04
+      scale: 0.05
+    proposal: 0.05
+    latex: \ln(10^{10}A_s)
+sampler:
+  mcmc:
+    burn_in: 10
+    max_tries: 40d
+    covmat: null
+    covmat_params: null
+    proposal_scale: 2.4
+    output_every: 60s
+    learn_every: 40d
+    temperature: 1
+    learn_proposal: true
+    learn_proposal_Rminus1_max: 2.0
+    learn_proposal_Rminus1_max_early: 30.0
+    learn_proposal_Rminus1_min: 0.0
+    max_samples: 10
+    Rminus1_stop: 0.05
+    Rminus1_cl_stop: 0.2
+    Rminus1_cl_level: 0.95
+    Rminus1_single_split: 4
+    measure_speeds: true
+    oversample_power: 0.4
+    oversample_thin: true
+    drag: false
+    blocking: null
+    callback_function: null
+    callback_every: null
+    seed: null
+    check_every: null
+    oversample: null
+    drag_limits: null
+    fallback_covmat_scale: 4
+    version: null
+output: run_emp_1
+version: 3.5.7
