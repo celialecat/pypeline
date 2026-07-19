@@ -1,0 +1,11 @@
+{
+    "hidden_features": 80,
+    "num_transforms": 3,
+    "num_components": 5,
+    "dropout_probability": 0.017194260557609198,
+    "batch_size": 64,
+    "initial_lr": 0.00010968217207529509,
+    "gamma": 0.9038749530752231,
+    "step_size": 26,
+    "activation": "Tanh"
+}
